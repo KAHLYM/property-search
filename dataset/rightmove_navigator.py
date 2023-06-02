@@ -1,6 +1,6 @@
 """
 Script to crawl website and download sub pages
-python .\dataset\main.py --webpage "https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=REGION%5E87490&sortType=6&propertyTypes=&includeSSTC=false&mustHave=&dontShow=&furnishTypes=&keywords=" --next //*[@id="l-container"]/div[3]/div/div/div/div[3]/button --max-download 50
+python .\dataset\rightmove_navigator.py --webpage "https://www.rightmove.co.uk/property-for-sale/find.html?locationIdentifier=REGION%5E87490&sortType=6&propertyTypes=&includeSSTC=false&mustHave=&dontShow=&furnishTypes=&keywords=" --next //*[@id="l-container"]/div[3]/div/div/div/div[3]/button --max-download 50
 """
 import argparse
 import hashlib
