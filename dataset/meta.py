@@ -31,7 +31,7 @@ class Meta:
 
         atexit.register(self._dump_data)
 
-    def _dump_data(self):
+    def _dump_data(self) -> None:
         if self._data:
             with open(self._path, "w") as f:
                 json.dump(self._data, f)
