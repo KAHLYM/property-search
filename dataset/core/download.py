@@ -23,7 +23,7 @@ class Downloader:
                     },
                 )
             ) as response:
-                self._logger.debug(f"Downloaded source from { url }")
+                self._logger.debug(f"Downloaded source from { url.rstrip() }")
 
                 pattern = re.compile('[\W_]+', re.UNICODE)
                 filename = pattern.sub('', datetime.datetime.now().isoformat())
