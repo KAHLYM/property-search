@@ -21,6 +21,7 @@ parser = argparse.ArgumentParser(description="Crawl website and download sub pag
 parser.add_argument("--download", metavar="D", type=int, help="Number of pages to download", required=True)
 parser.add_argument("--log-level", metavar="L", type=int, help="Log level defined by python logging", required=False, default=20)
 parser.add_argument("--output", metavar="O", type=str, help="Output directory", required=False, default=OUTPUT_DIRECTORY)
+parser.add_argument("--tags", metavar="T", nargs='+', help="Tags associated with data", required=True)
 parser.add_argument("--wait", metavar="W", type=str, help="Time in seconds to wait for network", required=False, default=5)
 subparsers = parser.add_subparsers(help="Sources", dest="command")
 

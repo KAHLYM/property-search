@@ -15,6 +15,6 @@ class DataSet:
         # Create output filesystem structure
         pathlib.Path(os.path.join(output, "data")).mkdir(parents=True, exist_ok=True)
 
-    def add(self, url: str, command: str) -> None:
+    def add(self, url: str, command: str, tags: list) -> None:
         filename = self._downloader.download(url)
-        self._meta.add(filename, Metadata(command, url))
+        self._meta.add(filename, Metadata(command, url, tags))

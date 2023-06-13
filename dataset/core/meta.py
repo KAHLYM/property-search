@@ -9,10 +9,12 @@ from logging import Logger
 class Metadata:
     command: str
     source: str
+    tags: list
 
-    def __init__(self, command: str, source: str):
+    def __init__(self, command: str, source: str, tags: list):
         self.command = command
         self.source = source
+        self.tags = tags
 
 
 class Meta:

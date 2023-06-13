@@ -31,5 +31,5 @@ class Manual:
 
         downloads = 0
         while downloads < self._args.download and downloads < len(sources):
-            self._dataset.add(sources[downloads], " ".join(sys.argv))
+            self._dataset.add(sources[downloads], " ".join(sys.argv), self._args.tags)
             downloads += 1
