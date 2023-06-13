@@ -1,7 +1,6 @@
 import datetime
 import os
 import re
-import string
 import urllib
 from logging import Logger
 
