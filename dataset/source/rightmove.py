@@ -55,7 +55,7 @@ class Rightmove:
         downloads = 0
         while elements.qsize() and downloads < self._args.download:
             if property_id := self._get_property_id(elements.get()):
-                self._dataset.add(self._subpage(property_id), " ".join(sys.argv))
+                self._dataset.add(self._subpage(property_id), " ".join(sys.argv), self._args.tags)
                 downloads += 1
                 elements.task_done()
 

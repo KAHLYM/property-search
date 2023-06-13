@@ -53,5 +53,5 @@ class ImFeelingLucky:
             if elements := self._driver.find_elements(
                 By.XPATH, '//*[@id="b_results"]//a[@href]'
             ):
-                self._dataset.add(elements[0].get_attribute("href"), " ".join(sys.argv))
+                self._dataset.add(elements[0].get_attribute("href"), " ".join(sys.argv), self._args.tags)
                 downloads += 1
