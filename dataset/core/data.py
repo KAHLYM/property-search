@@ -1,11 +1,13 @@
+from logging import Logger
+
 from bs4 import BeautifulSoup
 from bs4.element import Comment
-from local_logging import logger
 
 
 class Data:
-    def __init__(self, data: str):
+    def __init__(self, data: str, logger: Logger):
         self._data = data
+        self._logger = logger
         self.strings = self._extract_strings()
 
     def __str__(self) -> str:
@@ -29,7 +31,7 @@ class Data:
         soup = BeautifulSoup(self._data, "html.parser")
         strings = soup.findAll(string=True)
         visible_strings = filter(self._is_visible_tag, strings)
-        logger.debug(f"Extracted and filtered { len(strings) } strings")
+        self._logger.debug(f"Extracted and filtered { len(strings) } strings")
 
         # Space-seperated string with no other whitespace
         return " ".join(
