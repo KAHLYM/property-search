@@ -26,8 +26,12 @@ class ImFeelingLucky:
         self._logger = logger
         self._wait = wait
 
-        # TODO Check if download exists
-        nltk.download("gutenberg")
+        FILEIDS = "melville-moby_dick.txt"
+        try:
+            gutenberg.words(FILEIDS)
+            self._logger.debug(f"Found { FILEIDS }. Assuming gutenberg installed")
+        except LookupError:
+            nltk.download("gutenberg")
         moby_dick = set(nltk.Text(gutenberg.words("melville-moby_dick.txt")))
         self._moby_dick = [word.lower() for word in moby_dick if len(word) > 2]
 
