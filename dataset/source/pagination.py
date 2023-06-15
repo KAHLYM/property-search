@@ -1,17 +1,15 @@
 import queue
-import re
 import sys
 from argparse import Namespace
 from logging import Logger
 
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 
-class Rightmove:
+class Pagination:
     def __init__(
         self,
         args: Namespace,
@@ -26,40 +24,29 @@ class Rightmove:
         self._logger = logger
         self._wait = wait
 
+        self._elements = queue.Queue()
+
         self._execute()
 
-    def find_elements_and_put_in_queue(queue: queue.Queue, driver: WebDriver) -> None:
-        for element in driver.find_elements(
-            By.XPATH, '//*[@id="l-searchResults"]/div/div'
-        ):
-            queue.put(element)
-
-    def get_property_id(element: WebElement) -> str | None:
-        if regex_search_result := re.search(
-            "property-([0-9]*)", element.get_attribute("id")
-        ):
-            return regex_search_result.group(1)
-        return None
-
-    def subpage(property_id: str) -> str:
-        return f"https://www.rightmove.co.uk/properties/{ property_id }"
+    def _find_elements_and_put_in_queue(self) -> None:
+        for element in self._driver.find_elements(By.XPATH, str(self._args.element)):
+            self._elements.put(element.get_attribute("href"))
 
     def _execute(self):
-        elements = queue.Queue()
-        self._find_elements_and_put_in_queue(elements, self._driver)
-
+        
         # Get inital webpage
         self._driver.get(self._args.webpage)
         self._logger.debug(f"Loaded webpage { self._args.webpage }")
 
-        downloads = 0
-        while elements.qsize() and downloads < self._args.download:
-            if property_id := self._get_property_id(elements.get()):
-                self._dataset.add(self._subpage(property_id), " ".join(sys.argv), self._args.tags)
-                downloads += 1
-                elements.task_done()
+        self._find_elements_and_put_in_queue()
 
-            if not elements.qsize():
+        downloads = 0
+        while self._elements.qsize() and downloads < self._args.download:
+            self._dataset.add(self._elements.get(), " ".join(sys.argv), self._args.tags)
+            downloads += 1
+            self._elements.task_done()
+
+            if not self._elements.qsize():
                 # Load next page if available
                 # N.b. find_element will raise NoSuchElementException if no element is found so use
                 # find_elements which will return an empty list if no elements are found
@@ -71,7 +58,7 @@ class Rightmove:
                     self._wait.until(
                         EC.presence_of_element_located((By.XPATH, self._args.next))
                     )
-                    self._find_elements_and_put_in_queue(elements, self._driver)
+                    self._find_elements_and_put_in_queue()
                 else:
                     self._logger.debug(f"No next page element found")
                     break
