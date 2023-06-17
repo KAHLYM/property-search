@@ -1,5 +1,6 @@
 import random
 import sys
+import time
 from argparse import Namespace
 from logging import Logger
 
@@ -43,6 +44,8 @@ class ImFeelingLucky:
     def _execute(self):
         downloads = 0
         while downloads < self._args.download:
+            time.sleep(2)
+            
             query = f"https://www.bing.com/search?q={ self._get_random_word() }+{ self._get_random_word() }"
             self._driver.get(query)
             self._logger.debug(f"Generated query { query }")

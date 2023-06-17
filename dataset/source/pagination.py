@@ -51,7 +51,7 @@ class Pagination:
                 # N.b. find_element will raise NoSuchElementException if no element is found so use
                 # find_elements which will return an empty list if no elements are found
                 if next_page := self._driver.find_elements(By.XPATH, self._args.next):
-                    next_page[0].click()
+                    next_page[0].click() if next_page[0].tag_name == "button" else self._driver.get(next_page[0].get_attribute("href"))
                     self._logger.info(
                         f"Moved to next webpage { self._driver.current_url }"
                     )

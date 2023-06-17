@@ -38,7 +38,7 @@ class Meta:
         if self._data:
             with open(self._path, "w") as f:
                 json.dump(self._data, f)
-            self._logger.info(f"Dumped metadata to { self._path }")
+            self._logger.info(f"Dumped { len(self._data) } metadata to { self._path }")
 
     def add(self, key: str, metadata: Metadata) -> None:
         self._data[key] = asdict(metadata)
