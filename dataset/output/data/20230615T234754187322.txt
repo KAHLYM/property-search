@@ -1,0 +1,1 @@
+Connect to the internet You're offline. Check your connection. Application failure Error reaching the trading platform server. RETRY Connect to the internet Please check if You're offline. Reconnecting to server Please wait
