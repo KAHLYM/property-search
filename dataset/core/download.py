@@ -1,6 +1,4 @@
-import datetime
 import os
-import re
 import urllib
 from logging import Logger
 
@@ -12,7 +10,7 @@ class Downloader:
         self._logger = logger
         self._output = output
 
-    def download(self, url: str) -> str:
+    def download(self, url: str, filename: str) -> bool:
         try:
             with urllib.request.urlopen(
                 urllib.request.Request(
@@ -23,10 +21,6 @@ class Downloader:
                 )
             ) as response:
                 self._logger.debug(f"Downloaded source from { url.rstrip() }")
-
-                pattern = re.compile('[\W_]+', re.UNICODE)
-                filename = pattern.sub('', datetime.datetime.now().isoformat())
-
                 data = Data(response.read().decode(), self._logger)
 
                 with open(
@@ -34,8 +28,10 @@ class Downloader:
                     "wb",
                 ) as f:
                     f.write(bytes(data.strings, encoding="utf8"))
-                self._logger.debug(f"Saved strings from { url }")
 
-                return filename
+                self._logger.debug(f"Saved strings from { url }")
+                return True
+
         except Exception as e:
-            self._logger.warn(f"Caught exception", e)
+            self._logger.warn(f"Caught exception")
+            return False
